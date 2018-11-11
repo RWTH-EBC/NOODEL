@@ -52,7 +52,7 @@ Have a look at the handbook.
 
 ### Dependencies
 
-33 NCM is tested against dymola 2018 and OpenModelica 1.11. 
+33 NCM is tested against dymola 2018. 
 
 ### How to contribute to the development of TEASER
 You are invited to contribute to the development of NOODEL. You may report any issues by using the [Issues](https://github.com/RWTH-EBC/NOODEL/issues) button.
