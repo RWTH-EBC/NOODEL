@@ -1,0 +1,43 @@
+within NOODEL.Components.Segments;
+model R_Arm
+  extends BodyPart(
+  core(
+    TSET=35.8,
+    Ccore=(2.1209*3600),
+    QB=0.346,
+    weight=1.37,
+      Q(start=0.346)),
+  skin(
+    QB=0.026,
+    TSET=33.95,
+    TSETpsy=30,
+    weight=1.37,
+    S=0.063,
+    Cskin=(0.594*3600)),
+  CoreConv(                     BFB=0.94/3600, BF(start=0.14/3600)),
+  SkinConv(                    BFB=0.508/3600, BF(start=0.2/3600)),
+  alpha=0.351,
+  CD=2.065,
+  SKINR = 0.0117,
+  SKINS = 0.026,
+  SKINV = 0.0163,
+  SKINC = 0.0213,
+  CHILF = 0.0014,
+  METF = 0.014,
+  RESC=0,
+  B=11.75,
+  n=0.625,
+  Bs=12.65,
+  ns=0.540,
+  CR=0.7,
+  CRS=0.7,
+  TClcoeff={-0.4209,0.334,0.8242},
+  CoeffTSl={0.03,0.1,0.05,0.1,144,125,0});
+
+  annotation (Icon(coordinateSystem(preserveAspectRatio=false, extent={{-100,-100},
+            {100,100}}),
+                   graphics={Bitmap(extent={{-32,-32},{32,30}},
+          imageSource="iVBORw0KGgoAAAANSUhEUgAAAFEAAADoCAYAAACXSgiLAAAACXBIWXMAAC4jAAAuIwF4pT92AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAB25JREFUeNrsnV1yGkcQxzFlkSqDKigqI/MkbiBuYOXFOQI6TnIb6xRZ3uOq5QLx8qRASmIpiVRFeiAiZZKF7dn53p2Pf7+4FmFAP7r739PTs3qz3W5blN1MJtev//zaglH2y+fb25/3F23w0DdABEQ37K3Mkz/99ClKSF9++9K6v79XgnhdvDg/P28N3g+ihNjpdMyEM++FkBNhgNiAjQBR0i4+XChDHBcver0eaCqEc7940e11QQs5ERAbtZOTk8pUB4gCdnZ2dvzQ96IQR5xvI54Vy0l5oXEzmYxFIF5yvo1orN/vVwovwll92TsGREnbNWCkPLEY71V5AZ5Y7Yl9wbwQj0L/cIacqGvdbmnF9hEQ9SH+l/baaD6IGaOrPxLOiaenp3BF2pnGCGf9MgcQDSh0ZThfIycKLf+uhD0RDdlvztTtUQp9LVxsw9gLDhbEK16NBKuASK2bAbHaQdsioRzr+Ahlw+GwVOa0ocwWwrl1tC2A1YoBiMTuP0wA4keIioawvCrzCMrMWfqVN+xKwjKCMldb57sON5yhzAZyIpTZNEQos9qK5UCZYx4dkWhCXLWrlDnm0RGmsHSqhaUMsQ+IsjlxfEwc4SwP8SDYiU0Z2Kstl8vjh+Zt1IjaljE9EfsqauF8xZFyWBVEqrzBWT7aFn8smOGMxoOBnDiGF+rnRJQ3BiDCEwWNOIGfkZ5IDO7Avtnz8zMTIvZVDNWJgGgSIoy2PM/pEoecvXkHTyTz4UspH7Y+397+mxP7CGdlUUE4Gwjn2R4iOg2CtnpYlbjuIR7kRGJ0DMYO5wThLGl3d3clZQZECXt5eSHLGzKcsW5m5MN8RT2cksKCdTNtm82GqhFzhLMexGmxTkSJI2DUtkARIjao1MqbjLligbDQRjRjUyz7NEVlv1oBRI3y5lWZE0DUazzMixeAqKbMKSBK2uPjIyDqrpmfnp6OH04A0dCaGRAFjRrq3K+ZAVHUE8vd7Oz4AUCUX6kkgKgvKikgGhaVPcQ5J5FCVP639W6znoKYARej8fC04XohwpljDw8PXFEBRHllhidK5cM/l0KiAohVyrwie4gZIEpYvir1EKes5wKiuKikgGhJVPYQD35IdHEhKgIQc/jdUZFNj4wgnKWUudz+mlY9v7TsI2bwUN5UhDLWzgwjHIkLEVasDxlnVXgQc8EXiiOUOdMOJERKdahDLxGLyoz3fxDOmqLChMiYgoKocCBOAZH5e6cIZ8uiwoT4/HecwsI6uycKMeUk1yiMN0LHg4gmRIu+SYYMxMNwfo4vnHeiwjoAqRTOxDcSpaggnPVFpTRChxLHkqgww3lnjBZ5sMaby+ZCFHXbUE1kLhvhbFFUjiEeVOcxjdiJzGWLQow2pEXmshHO8iuVRBVixpH8mEQlNQIRooJw1hGVNWuETtoTY9nEF53LRjhXmOhctnI4M+5KFLoyq3sitZfASLrh5EPJEToIC6XMEnPZMhDXvDcJyWTmsmUgpjHlRJm5bISzRVGhIEaz9DMlKlyIQRfZknPZyuEc8tap7Fy2srCEvHWqMkInCjGaxqzqtIOSOoc6ZkekKjOeSC39Nn+FB5GhzPY8MSJlBkRNiDOd14sSou7ungjE4G/xYlJUWBCDX7Ww/oYAwlnQVI6dAeJxPlQ8ISAL8eCrInbDQhOVme5rUhAPkiwxHYA1c+zhTIhKAoj6ogJPNCAqViCmHPcPSVSmJl6Xq84h2WKxMB7KwuEcytapqd09LsRQx0lM7u5FKyyMOUSrEIMbJyFEJTX12iyIwY2T6A63a4ez7yfxd51snRNTRjzR93A2MdyuAjGoWnG5KInKzOR5RiGIxAlMFNmy4ex7O8ymqERRJ9ossnkQM8EPE3WRXQlRZxrAuXxYHlRNTL+HcDj7OthkOx/yIHp/E7ZdJ9v0Rn10wrJYLqhUlQCijCcaOqeiA9H7/WcbO3uyEL0uuBlNh7RuiCE2HRJAdKjpEAVE200HUYgZJ0lHX2RLQwyg6dAIRH/zoYE7jEQPsY6mgzJEH3b9dp+xriKbC9HXSQhqveyUJ3paH85NN2GDh0jUh4nt9wwK4m69XGd9qATR9cZs3fWhKESvutuM9XKGcJYwm/M20UA0fWYvOoiqf9Wndoguj9hRt1mwsSmlAvHgQ7g8YkfdK7uu9w4mnE2fpo8SYlPKHBREW2dUzAuLo/cOs3Ga3iREL+4dZuvgoymIXsxu2zhNH11ObKL9FRzEJkUlCIh1zGTrQuw7nw/Lq6h1naIiAnFcvBgOh+55YrmHmNb9GbwP5ya2A4KDWNcMYrAQGT3E3DWITgtLkz1EZWG5+HDRggUWzkR5MwdESSMGrDJAlDRX9nx4EEeehXPqIsTL4sVgMHDdOXOEs6S5clsFryE2uTkV1LIPngiIMEAEREA0Yi7srQTpibaO4iKcAREQAREGiIAIiDUZsV26BkR9iCkg6tuoqTd+K/Pkr79/debv+BH3Lrts6rO82W63zB/eTCZbz7zxRxcnIHyzRsZeQoM4djEnTj2DmDXxpv8IMACUZq0FPGEosAAAAABJRU5ErkJggg==",
+          fileName="modelica://ComfortModel33NCM/Pictures/Unterarm links.png")}));
+
+end R_Arm;

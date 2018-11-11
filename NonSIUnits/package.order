@@ -1,0 +1,12 @@
+AreaRelatedVolumeFlowRate
+AreaRelatedMassFlowRate
+FlowRate
+ClothingInsulation
+SweatingSkinHeadCore
+Vasodilation
+VasodilationSkinHeadCore
+TemperatureDependentChange
+TemperatureDependentChangeSquare
+MetabolicRate
+VolumetricSpecificHeat
+CoefficientOfEvaporativeHeatTransfer
