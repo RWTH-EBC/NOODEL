@@ -1,4 +1,4 @@
-![E.ON EBC RWTH Aachen University](./doc/_static/EBC_Logo.png)
+![E.ON EBC RWTH Aachen University](./doc/_static/EBC_Logo.jpg)
 
 # NOODEL - 33 NOde COmfort MoDEL
 
