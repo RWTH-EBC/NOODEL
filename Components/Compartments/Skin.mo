@@ -163,7 +163,7 @@ equation
      COLD = 0;
      WARM =  ERROR_criticalDamping.y;
    else
-     COLD = 0.5*ERROR_criticalDamping.y;
+     COLD = -ERROR_criticalDamping.y; // Review2020: original --> COLD = 0.5*ERROR_criticalDamping.y;
      WARM = 0;
    end if;
 

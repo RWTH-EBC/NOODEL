@@ -57,7 +57,7 @@ equation
     COLD = 0;
     WARM = ERROR;
   else
-    COLD = ERROR;
+    COLD = -ERROR; // Review2020: original --> COLD = ERROR;
     WARM = 0;
   end if;
 
