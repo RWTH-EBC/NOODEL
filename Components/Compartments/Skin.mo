@@ -28,6 +28,8 @@ class Skin
   the order of magnitude was derived from JOS-2";
   parameter Modelica.SIunits.Area S "Surface area";
 
+
+
 // Heat production
   Modelica.SIunits.HeatFlowRate Q(start=1) "Total metabolic heat production";
   Modelica.SIunits.HeatFlowRate Qcon(start=1)
@@ -41,8 +43,10 @@ class Skin
   Real CSF "fraction of surface in contact with external surface";
   Real CSR "fraction of surface exposed to solar radiation";
 
+
+  Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0skin "Start skin temperature of body parts";
   Modelica.SIunits.Conversions.NonSIunits.Temperature_degC
-                                      T(start=parameters.T0sk, fixed=true)
+                                      T(start=T0skin)
     "Compartment temperature";
   Modelica.SIunits.HeatFlowRate ISolar(start=0) "Solar Radiation";
   Modelica.SIunits.Conversions.NonSIunits.Temperature_degC
@@ -137,8 +141,13 @@ equation
   else
     QMT = 4.4*CSF*S*fcl*(T-Tmt);
   end if;
-  Qcon = HC*(T-Tair)*S*fcl*(1-CSF);
-  Qrad = HR*(T-Trad)*S*fcl*(1-CSF);
+
+  // Equation based definition of Qcon and Qrad only for standalone mode
+  // For coupled mode, Qcon and Qrad are defined at main model "NOODEL_standalone"
+  if not parameters.UseCoupling then
+    Qcon = HC*(T-Tair)*S*fcl*(1-CSF);
+    Qrad = HR*(T-Trad)*S*fcl*(1-CSF);
+  end if;
 
  // Heat gain by solar radiation, 0.8 is absorption of clothing
   Qs = S*fcl*CSR*0.8*ISolar;

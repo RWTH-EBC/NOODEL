@@ -1,13 +1,25 @@
-within NOODEL.Interfaces;
+﻿within NOODEL.Interfaces;
 model Parameters "BC human body"
+
+   // Kai: add Coupling Parameter: if UseCoupling = false --> no coupling (Standalone Mode); if UseCoupling = true --> coupling Mode (via fmu)
+ parameter Boolean UseCoupling = false "Boolean Coupling Flag" annotation(Evaluate=true, HideResult = false);
+ // Kai: end of modification
 
   Modelica.SIunits.Conversions.NonSIunits.Temperature_degC TempEnv
     "Average environmental temperature for evaporation";
 
-   parameter Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0sk
-     "Initial skin temperature";
-   parameter Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0cr
-     "Initial core temperature";
+//    parameter Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0sk
+//      "Initial skin temperature";
+//    parameter Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0cr
+//      "Initial core temperature";
+
+//      "Initial skin temperature"
+  parameter Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0sk[16] = {33,33,31.4,32,31.5,31.5,31.5,31.5,31,31,32.2,32.2,31,31,31,31} "Initial local skin temperature of body part" annotation(Evaluate=false, Placement(transformation(extent={{128,-130},{88,-90}})));
+  //      "Initial core temperature"
+  parameter Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0cr[16] = {36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4,36.4} "Initial local core temperature of body part" annotation(Evaluate=false, Placement(transformation(extent={{88,-130},{48,-90}})));
+
+
+
 
 //   parameter ComfortModel33NCMStandaloneOM2.Functions.Position Position=
 //       ComfortModel33NCMStandaloneOM2.Functions.Position.seat
@@ -37,26 +49,52 @@ model Parameters "BC human body"
     annotation (Placement(transformation(extent={{126,34},{86,74}})));
   Modelica.Blocks.Interfaces.RealInput v[16]
     annotation (Placement(transformation(extent={{128,-6},{88,34}})));
-  Modelica.Blocks.Interfaces.RealInput rh
-    annotation (Placement(transformation(extent={{128,-44},{88,-4}})));
 
+  // Intitial values / parameter definition
+
+    // relative humidity
+  parameter Real rh_Coupled = 0.47 if UseCoupling "Relative humidity (0-1); Only available in coupling mode" annotation(Evaluate=false);
+  Modelica.Blocks.Interfaces.RealInput rh annotation (Placement(transformation(extent={{128,-44},{88,-4}})));
+
+  // metabolic rate
+  parameter Modelica.SIunits.HeatFlux met_Coupled = 58 if UseCoupling "Metabolic rate; Only available in coupling mode" annotation(Evaluate=false);
   Modelica.Blocks.Interfaces.RealInput met
     annotation (Placement(transformation(extent={{128,-80},{88,-40}})));
+
+  // clothing insulation
+  parameter Real Icl_Coupled[16] = {0, 1.1, 0.8, 1.3, 0.4, 0.4, 0, 0, 0, 0, 0.6, 0.6, 0.55, 0.55, 0.5, 0.5} if UseCoupling "Local clothing value in clo; Only available in coupling mode" annotation(Evaluate=false);
   Modelica.Blocks.Interfaces.RealInput Icl[16]
     annotation (Placement(transformation(extent={{-126,68},{-86,108}})));
+
+   // contact surface fraction
+  parameter Real CSF_Coupled[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} if UseCoupling "Relative local surface area in contact with material; Only available in coupling mode" annotation(Evaluate=false);
   Modelica.Blocks.Interfaces.RealInput CSF[16]
     annotation (Placement(transformation(extent={{-126,34},{-86,74}})));
+
+  // contact surface temperature
+  parameter Modelica.SIunits.Conversions.NonSIunits.Temperature_degC Tmt_Coupled[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} if UseCoupling "Local contact temperature of material; Only available in coupling mode" annotation(Evaluate=false);
   Modelica.Blocks.Interfaces.RealInput Tmt[16]
     annotation (Placement(transformation(extent={{-126,-6},{-86,34}})));
+
+  // solar radiation: surface fraction
+  parameter Real CSR_Coupled[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} if UseCoupling "Relative local surface area exposed to solar irradiation; Only available in coupling mode" annotation(Evaluate=false);
   Modelica.Blocks.Interfaces.RealInput CSR[16]
     annotation (Placement(transformation(extent={{-126,-44},{-86,-4}})));
+
+  // solar radiation: heat flux
+  parameter Modelica.SIunits.HeatFlux ISolar_Coupled[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} if UseCoupling "Solar irradiation on local body part; Only available in coupling mode" annotation(Evaluate=false);
   Modelica.Blocks.Interfaces.RealInput ISolar[16]
     annotation (Placement(transformation(extent={{-126,-80},{-86,-40}})));
+
+    // Position: Sitting or standing
+  parameter Real Position_Coupled = 1 if UseCoupling "Position: 0 – sitting, 1 - standing; Only available in coupling mode" annotation(Evaluate=false);
   Modelica.Blocks.Interfaces.RealInput Position annotation (Placement(
         transformation(
         extent={{-20,-20},{20,20}},
         rotation=-90,
         origin={0,106})));
+
+
   Modelica.Blocks.Math.RealToBoolean realToBoolean annotation (Placement(
         transformation(
         extent={{-10,-10},{10,10}},
@@ -70,7 +108,11 @@ model Parameters "BC human body"
 algorithm
    TempEnv:=sum(Tair)/16;
 
+
 equation
+
+
+
   connect(Position, realToBoolean.u)
     annotation (Line(points={{0,106},{0,76}}, color={0,0,127}));
   connect(realToBoolean.y, sitting)

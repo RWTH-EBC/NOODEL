@@ -33,10 +33,14 @@ class Core
   Modelica.SIunits.Conversions.NonSIunits.Temperature_degC
                                       WARM "Output from warm receptor";
 
+ Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0core "Start core temperature of body parts";
  // Modelica.SIunits.Conversions.NonSIunits.Temperature_degC T0cr;
   Modelica.SIunits.Conversions.NonSIunits.Temperature_degC
-                                      T(start=parameters.T0cr, fixed=true)
+                                      T(start=T0core)
     "Compartment temperature";
+
+
+
   Modelica.SIunits.HeatFlowRate RES "Heat loss by respiration";
 
 equation
